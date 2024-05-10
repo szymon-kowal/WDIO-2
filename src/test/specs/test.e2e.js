@@ -8,9 +8,10 @@ const pasteComponent = new PasteComponent();
 describe('pastebin New Paste', () => {
     beforeEach(async () => {
         await indexPage.open();
-        await indexPage.removePopups();
-        // Mock paste to read input
+
+        // // Mock paste to read input
         // await browser.url('https://pastebin.com/uQrPGkjx');
+        await indexPage.removePopups();
     });
     it('Should display valid input data on newly created paste', async () => {
         const inputStr = [
@@ -65,6 +66,10 @@ describe('pastebin New Paste', () => {
             return Array.from(elements).map((element) => element.textContent);
         });
 
+        let browserTitle = await browser.getTitle();
+        const trimmedBrowserTitle = browserTitle.split('-')[0].trim();
+
+        expect(trimmedBrowserTitle).to.equal(inputTitle);
         expect(noteTitleText).to.equal(inputTitle);
         expect(syntaxHighlightingNoteText).to.equal(inputSyntax);
         inputStr.forEach((text, idx) => {
